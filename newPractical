@@ -1,0 +1,136 @@
+/*
+ * Name: Kin Florentino
+ * Section: BSIT-2B
+ * Date: September 7, 2025
+ * 
+ * Description:
+ * This Java program simulates a linked list using arrays and supports basic Stack and Queue operations:
+ * add(), poll(), peek(), and pop(). The program does not use Java's built-in LinkedList class and 
+ * helps to understand the internal working of such data structures.
+ */
+
+public class ArrayLinkedListSimulation {
+
+    private int[] data; // Array to store elements
+    private int size;   // Number of elements in the list
+    private static final int INITIAL_CAPACITY = 5;
+
+    // Constructor
+    public ArrayLinkedListSimulation() {
+        data = new int[INITIAL_CAPACITY];
+        size = 0;
+    }
+
+    /**
+     * Adds a new element to the end of the array.
+     * Simulates enqueue or addLast.
+     */
+    public void add(int value) {
+        // Check if array is full; if so, double its capacity
+        if (size == data.length) {
+            resizeArray();
+        }
+        data[size] = value;
+        size++;
+    }
+
+    /**
+     * Removes and returns the first element.
+     * Simulates dequeue or removeFirst.
+     * Returns -1 if empty.
+     */
+    public int poll() {
+        if (size == 0) {
+            return -1; // Empty
+        }
+        int result = data[0];
+        // Shift all elements to the left
+        for (int i = 1; i < size; i++) {
+            data[i - 1] = data[i];
+        }
+        size--;
+        return result;
+    }
+
+    /**
+     * Returns the first element without removing it.
+     * Returns -1 if empty.
+     */
+    public int peek() {
+        if (size == 0) {
+            return -1;
+        }
+        return data[0];
+    }
+
+    /**
+     * Removes and returns the last element.
+     * Simulates pop in a stack.
+     * Returns -1 if empty.
+     */
+    public int pop() {
+        if (size == 0) {
+            return -1;
+        }
+        int result = data[size - 1];
+        size--;
+        return result;
+    }
+
+    /**
+     * Doubles the array size when full.
+     */
+    private void resizeArray() {
+        int newCapacity = data.length * 2;
+        int[] newData = new int[newCapacity];
+        for (int i = 0; i < data.length; i++) {
+            newData[i] = data[i];
+        }
+        data = newData;
+    }
+
+    /**
+     * Prints the current elements in the array.
+     */
+    public void printElements() {
+        System.out.print("Current Elements: ");
+        for (int i = 0; i < size; i++) {
+            System.out.print(data[i] + " ");
+        }
+        System.out.println();
+    }
+
+    // Main method to test functionality
+    public static void main(String[] args) {
+        ArrayLinkedListSimulation list = new ArrayLinkedListSimulation();
+
+        System.out.println("=== Adding Elements ===");
+        list.add(10);
+        list.add(20);
+        list.add(30);
+        list.add(40);
+        list.add(50);
+        list.printElements();
+
+        System.out.println("\n=== Peek Operation ===");
+        System.out.println("Peek: " + list.peek());
+
+        System.out.println("\n=== Poll Operation ===");
+        System.out.println("Poll: " + list.poll());
+        list.printElements();
+
+        System.out.println("\n=== Pop Operation ===");
+        System.out.println("Pop: " + list.pop());
+        list.printElements();
+
+        System.out.println("\n=== Add More Elements (to check resize) ===");
+        list.add(60);
+        list.add(70);
+        list.add(80);
+        list.printElements();
+
+        System.out.println("\n=== Final State ===");
+        list.printElements();
+    }
+}
+
